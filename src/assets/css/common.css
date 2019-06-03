@@ -1,0 +1,21 @@
+/*
+公共样式库
+*/
+html, body{
+  font: 14px/1.5;
+  color: #515151;
+}
+html{
+  background-color: #f4f4f4;
+}
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
+.clearfix:after{
+  content: '';
+  display:block;
+  clear: both;
+}
