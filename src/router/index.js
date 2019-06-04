@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'  //第一步继承router
+//路由视图导出
 import Index from '../view/index.vue'
 
 //2.引用
@@ -9,7 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWord',
+      name: 'index',
       component: Index
     }
   ]
