@@ -56,6 +56,7 @@ export default {
   mounted() {
     this.getNavData();
     // this.getChildrenData();
+    //this.getMenuData();
   },
   methods: {
     //获取数据的方法
@@ -68,6 +69,11 @@ export default {
       // window.console.log(this.childrenData);
       this.childrenShow = true;
     },
+    // async getMenuData() {
+    //  const { data } = await HTTP.post('/meizu');
+    //  // this.menuData = data.data;
+    //   window.console.log(data)
+    // },
     //离开nav的显示区域
     heidChildren() {
       this.childrenShow = false;

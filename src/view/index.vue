@@ -5,6 +5,11 @@
     </div>
     <div class="swiper-wraper">
       <swiper :data='swiperData'></swiper>
+      <ul class="menus">
+        <li v-for="(item, index) in menuData" :key="index">
+          <a :href="item.href">{{item.name}}</a>
+        </li>
+      </ul>
     </div>
     <ul class="post-wraper">广告图片</ul>
     <div class="index-container">展示区</div>
@@ -22,7 +27,8 @@ import swiper from '../components/swiper';
 export default {
   data() {
     return {
-      swiperData: [] //轮播图的数据
+      swiperData: [], //轮播图的数据
+      menuData:[] //轮播图左侧的数据
     };
   },
   components: {
@@ -31,12 +37,19 @@ export default {
   },
   mounted(){
     this.getSwiperData();
+    this.getMenuData();
   },
   methods: {
     async getSwiperData() {
-      const { data } =await HTTP.post('/meizu');
+      const { data } = await HTTP.post('/meizu');
       this.swiperData = data.data.advertise;
-      //console.log(this.swiperData)
+      window.console.log('getSwiperData可以')
+    },
+    async getMenuData() {
+      window.console.log('aaa')
+      const { data } = await HTTP.get('/query');
+      this.menuData = data.data;
+      window.console.log('aaa')
     }
   }
 };
@@ -47,5 +60,9 @@ export default {
     height: 500px;
     position: relative;
     margin: 0 auto;
+
+    .menus{
+
+    }
   }
 </style>
