@@ -44,6 +44,7 @@ const HTTP = axios.create({
 import velocity from 'velocity-animate'
 export default {
   //name: 'vHeader',
+  //这里的数据因为头部不管再那个页面复用都是相同的数据所以没必要,让数据从父级传过来
   data() {
     return {
       navData: [], //定义数据,从后台传过来的数据导航栏
