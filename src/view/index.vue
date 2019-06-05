@@ -37,20 +37,22 @@ export default {
   },
   mounted(){
     this.getSwiperData();
-    this.getMenuData();
+    //this.getMenuData();
   },
   methods: {
     async getSwiperData() {
       const { data } = await HTTP.post('/meizu');
       this.swiperData = data.data.advertise;
-      window.console.log('getSwiperData可以')
+      this.menuData = data.data.menu;
+      // window.console.log(this.menuData);
     },
-    async getMenuData() {
-      window.console.log('aaa')
-      const { data } = await HTTP.get('/query');
-      this.menuData = data.data;
-      window.console.log('aaa')
-    }
+    //这样不可以会提示为429加载次数过多
+    // async getMenuData() {
+    //   window.console.log('aaa')
+    //   const { data } = await HTTP.get('/meizu');
+    //   this.menuData = data.data;
+    //   window.console.log('aaa')
+    // }
   }
 };
 </script>
@@ -62,7 +64,29 @@ export default {
     margin: 0 auto;
 
     .menus{
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 303px;
+      background-color: rgba(0, 0, 0, .5);
+      padding-top:17px; 
+      
+      li{
+        height: 57px;
+        line-height: 57px;
 
+        a{
+          font-size: 16px;
+          padding-left: 40px;
+          color: #ffffff;
+          transition: color .3s;
+          
+          &:hover{
+            color: #31a5e7;
+          }
+        }
+      }
     }
   }
 </style>
