@@ -11,7 +11,13 @@
         </li>
       </ul>
     </div>
-    <ul class="post-wraper">广告图片</ul>
+    <ul class="post-wraper clearfix">
+      <li v-for="(item, index) in postData" :key="index">
+        <a :href="item.href">
+          <img :src="item.imgUrl">
+        </a>
+      </li>
+    </ul>
     <div class="index-container">展示区</div>
     <div class="footer">底部</div>
   </div>
@@ -28,7 +34,8 @@ export default {
   data() {
     return {
       swiperData: [], //轮播图的数据
-      menuData:[] //轮播图左侧的数据
+      menuData:[], //轮播图左侧的数据
+      postData: [] //轮播图底部数据
     };
   },
   components: {
@@ -44,6 +51,7 @@ export default {
       const { data } = await HTTP.post('/meizu');
       this.swiperData = data.data.advertise;
       this.menuData = data.data.menu;
+      this.postData = data.data.post;
       // window.console.log(this.menuData);
     },
     //这样不可以会提示为429加载次数过多
@@ -87,6 +95,30 @@ export default {
           }
         }
       }
+    }
+  }
+  .post-wraper{
+    width: 1240px;
+    margin: 10px auto 50px;
+    font-size: 0px;
+   // margin-right: -px;
+    li{
+      float: left;
+      width: 303px;
+      height: 180px;
+      margin-right: 9px;
+
+      a{
+        transition: opacity .3s ease-in-out;
+
+        &:hover{
+          opacity: .85;
+        }
+      }
+
+    &:last-child{
+      margin-right: 0;
+    }
     }
   }
 </style>
