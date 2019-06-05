@@ -1,6 +1,6 @@
 <template>
   <div class="swiper" :style="swiperSize">
-    <ul :style="listWrapper" >
+    <ul :style="listWrapper" @transitionend='setDuration' >
       <li class="swiper-list" v-for="(item, index) in data" :key="index">
         <a :href="item.href">
           <img :style="swiperSize" :src="item.imgUrl" alt>
@@ -70,8 +70,7 @@ export default {
         if (this.activeIndex === this.data.length) {
           this.activeIndex = 0;
           //  //控制滚动时间
-          //这里关闭了要再其他地方再开启
-          this.haveDuration = false;
+          //this.haveDuration = false;
         } else {
           this.haveDuration = true;
           this.activeIndex++;

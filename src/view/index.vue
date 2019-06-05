@@ -18,8 +18,25 @@
         </a>
       </li>
     </ul>
-    <div class="index-container">展示区</div>
-    <div class="footer">底部</div>
+    <div class="index-container">
+      <div class="sale">
+         <h3 class="title">热卖商品</h3>
+         <goods-list :data='hotSaleData'></goods-list>
+      </div>
+      <div class="sale">
+         <h3 class="title">手机</h3>
+         <ad-list :data='phoneAdData'></ad-list>
+         <goods-list :data='phoneSaleData'></goods-list> 
+      </div>
+      <div class="sale">
+         <h3 class="title">智能配件</h3>
+         <ad-list :data='samrtAdData'></ad-list>
+         <goods-list :data='samrtSaleData'></goods-list> 
+      </div>
+    </div>
+    <div class="footer">
+      <vfooter></vfooter>
+    </div>
   </div>
 </template>
 
@@ -30,17 +47,29 @@ const HTTP = axios.create({
 });
 import vHeader from "../components/header";
 import swiper from '../components/swiper';
+import goodsList from '../components/goodsList';
+import adList from '../components/adList'
+import vfooter from '../components/footer'
 export default {
   data() {
     return {
       swiperData: [], //轮播图的数据
       menuData:[], //轮播图左侧的数据
-      postData: [] //轮播图底部数据
+      postData: [], //轮播图底部数据
+      hotSaleData: [], //热卖商品列表结构数据
+      phoneSaleData: [], //手机商品列表结构1数据
+      phoneAdData: [], //手机商品列表结构2数据
+      samrtSaleData: [], //智能商品列表结构1数据
+      samrtAdData: [], //智能商品列表结构1数据
+     
     };
   },
   components: {
     vHeader,
-    swiper
+    swiper,
+    goodsList,
+    adList,
+    vfooter
   },
   mounted(){
     this.getSwiperData();
@@ -52,6 +81,11 @@ export default {
       this.swiperData = data.data.advertise;
       this.menuData = data.data.menu;
       this.postData = data.data.post;
+      this.hotSaleData = data.data.hotSale;
+      this.phoneSaleData = data.data.phoneSale;
+      this.samrtSaleData = data.data.smartSale;
+      this.phoneAdData = data.data.phoneRecommend;
+      this.samrtAdData = data.data.smartRecommend;
       // window.console.log(this.menuData);
     },
     //这样不可以会提示为429加载次数过多
@@ -119,6 +153,19 @@ export default {
     &:last-child{
       margin-right: 0;
     }
+    }
+  }
+  .index-container{
+    width: 1240px;
+    margin: 0 auto;
+
+    .title{
+      font-size: 30px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .sale{
+      margin-bottom: 50px;
     }
   }
 </style>

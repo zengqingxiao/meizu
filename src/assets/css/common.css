@@ -2,7 +2,8 @@
 公共样式库
 */
 html, body{
-  font: 14px/1.5;
+  font-size: 14px;
+  line-height: 1.5;
   color: #515151;
 }
 html{
