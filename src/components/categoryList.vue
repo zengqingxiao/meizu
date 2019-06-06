@@ -1,5 +1,5 @@
 <template>
-  <!-- 商品列表组件 - 1 -->
+  <!--分类列表展示组件  -->
   <div class="catrgory">
     <ul v-if="data.length > 0" class="clearfix">
       <li
@@ -9,7 +9,7 @@
         :class="{'last-child': (index + 1) % 4 === 0 }"
       >
         <a :href="item.href">
-          <img class="goods-img" :src="item.goodsUrl">
+          <images-list :data='item.colorImageUrls'></images-list>
           <div class="goods-name">{{item.goodsName}}</div>
           <div class="goods-desc">{{item.goodsDesc}}</div>
           <div class="goods-price">
@@ -38,11 +38,14 @@
 </template>
 
 <script>
+import imagesList from './imagesList'
 export default {
   data() {
     return {};
   },
-  components: {},
+  components: {
+    imagesList
+  },
   props: {
     data: {
       type: Array,
@@ -64,7 +67,7 @@ export default {
   margin-top: 10px;
   margin-right: 9px;
   width: 303px;
-  height: 400px;
+  height: 416px;
   background-color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
