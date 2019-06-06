@@ -61,9 +61,9 @@ export default {
   },
   methods: {
     async getServiceLink() {
-      const { data } = await HTTP.post("/backup");
+      const { data } = await HTTP.post("/footer");
       this.serviceLinkData = data.data.serviceLink;
-      window.console.log(this.serviceLinkData);
+      //window.console.log(this.serviceLinkData);
       this.externalLinkData = data.data.externalLink;
     }
   }

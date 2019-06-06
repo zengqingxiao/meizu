@@ -14,7 +14,7 @@
       </div>
       <ul class="header-nav fr">
         <li v-for="(item,index) in navData" :key="index" @mouseenter="showChildren(item)">
-          <a class="nav-item">{{item.name}}</a>
+          <a class="nav-item" href="javaScript:" @click="goToCategory">{{item.name}}</a>
         </li>
       </ul>
     </div>
@@ -61,7 +61,7 @@ export default {
   methods: {
     //获取数据的方法
     async getNavData() {
-      const { data } = await HTTP.post("/meizu"); //通过axios获取数据
+      const { data } = await HTTP.post("/header"); //通过axios获取数据
       this.navData = data.data.nav; //将获得到的数据赋值给变量navData
     },
     async showChildren(item) {
@@ -98,6 +98,12 @@ export default {
         })
       }
       ,timeOut)
+    },
+    //点击跳转路由
+    goToCategory () {
+      this.$router.push({
+        name: 'Category',
+      })
     }
   }
 };
