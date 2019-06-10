@@ -55,6 +55,8 @@ export default {
 </script>
 <style lang='less' scoped>
   .filter-box{
+    width: 1240px;
+    margin: 0 auto;
     background-color: white;
     padding: 15px 10px;
     border: 1px solid #efefef;
