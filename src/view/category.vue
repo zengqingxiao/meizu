@@ -15,6 +15,7 @@
     <filter-box :data="filrerBoxData" @filter="getQuery"></filter-box>
     <sortBox @getKey="getSortKey" @getStock="getSortStock"></sortBox>
     <category-list :data="categoryListData"></category-list>
+    <recommendList :data='recommendListData'></recommendList>
     <v-footer></v-footer>
   </div>
 </template>
@@ -27,6 +28,7 @@ import vFooter from "../components/footer";
 import filterBox from "../components/filterBox";
 import categoryList from "../components/categoryList";
 import sortBox from "../components/sortBox";
+import recommendList from '../components/recommendList'
 const HTTP = axios.create({
   baseURL: " https://www.easy-mock.com/mock/5cf54545a48c5b4da964d533/example"
 });
@@ -36,13 +38,15 @@ export default {
     vFooter,
     categoryList,
     filterBox,
-    sortBox
+    sortBox,
+    recommendList
   },
   data() {
     return {
       categoryListData: [], //列表数据
       filrerBoxData: [], //条件筛选组件数据
       categoryListCopy: [],
+      recommendListData: [],//推荐商品组件的数据
       //新增字段用来缓存存各自选择过后的物品的值
       currentQuery: null, //条件对象筛选
       currentStock: null, //判断是否有货
@@ -60,6 +64,7 @@ export default {
       this.categoryListData = data.data.categoryList;
       this.categoryListCopy = [].concat(data.data.categoryList); //将data的值赋值一遍
       this.filrerBoxData = data.data.queryList;
+      this.recommendListData = data.data.smartSale;
       //window.console.log(this.categoryListData);
     },
 

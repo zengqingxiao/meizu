@@ -59,7 +59,7 @@ export default {
 <style lang='less' scoped>
 .catrgory {
   width: 1240px;
-  margin: 0 auto 60px;
+  margin: 0 auto 0px;
 }
 .goods-list {
   float: left;
