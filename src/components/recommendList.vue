@@ -1,4 +1,5 @@
 <template>
+<!-- 推荐商品组件 -->
   <div class="recommend">
     <div class="clearfix recommend-heade">
       <h3 class="fl title">推荐商品</h3>
