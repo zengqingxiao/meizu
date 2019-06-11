@@ -3,6 +3,7 @@
   <div class="catrgory">
     <ul v-if="data.length > 0" class="clearfix">
       <li
+        @click="clickItem(item, index)"
         class="goods-list"
         v-for="(item, index) in data"
         :key="index"
@@ -52,6 +53,22 @@ export default {
       default() {
         return [];
       }
+    }
+  },
+  methods:{
+    /**
+     * 在React组件中子向父传值是父亲向子,传函数,函数在子组件中完成,参数是子组件的
+     * 
+     * 在vue中,子向父亲传事件名,和参数,事件在父组件上完成
+     * 
+     * 注意:其实根本就是 要执行的行为函数必须是父组件提供,参数由儿组件提供,因为一样的子组件在不同的父组件下的行为不一样
+     *      ,是要看父组件他的需求是什么,React和Vue其实就是一个传的是函数,一个传的是参数的区别了
+     * 
+     * 
+     * 
+     */
+    clickItem(item, index){
+      this.$emit('clickItem', {item, index})
     }
   }
 };

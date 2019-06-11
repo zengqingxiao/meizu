@@ -14,7 +14,7 @@
     <!-- <filter-box :data='filrerBoxData' @filter='getResult(val)'></filter-box> -->
     <filter-box :data="filrerBoxData" @filter="getQuery"></filter-box>
     <sortBox @getKey="getSortKey" @getStock="getSortStock"></sortBox>
-    <category-list :data="categoryListData"></category-list>
+    <category-list @clickItem='goTODetail' :data="categoryListData"></category-list>
     <recommendList :data='recommendListData'></recommendList>
     <v-footer></v-footer>
   </div>
@@ -192,6 +192,24 @@ export default {
           });
         }
       }
+    },
+    //点击跳转路由,并传从参数
+    goTODetail(val){
+      //window.console.log(val);
+      this.$router.push({
+        name: 'Detail',
+        /**
+         * 
+         * 传 ID 值给路由，这个对象params会给路由
+         * ，路由会根据这里的值给Url和以放便后面子组件根据params对象取得ID的值
+         * 
+         * 在detail子页面中以this.$route.params.id的方式去取当前路由下的ID值
+         * 
+         */
+        params: {
+          id: val.item.id 
+        }
+      })
     }
   }
 };
