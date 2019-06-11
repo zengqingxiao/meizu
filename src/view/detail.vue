@@ -59,24 +59,30 @@
               量:
             </span>
             <div class="clearfix prop-number">
-              <input class="fl prop-input" type="text" name id>
+              <input v-model="purchaseQuantity" class="fl prop-input" type="number" name id>
               <div class="fl change-box">
-                <div class="change-value">+</div>
-                <div class="change-value">-</div>
+                <div @click="increase" class="change-value">+</div>
+                <div @click="reduce" class="change-value">-</div>
               </div>
             </div>
           </div>
           <div class="prop-buy">
-            <a class="btn danger mr20" href="javaScript:">立即购买</a>
-            <a class="btn success" href="javaScript:">加入购物车</a>
+            <a class="btn danger mr20" href="javaScript:" @click="purchase">立即购买</a>
+            <a class="btn success" href="javaScript:" @click="addShopcart">加入购物车</a>
           </div>
         </div>
       </div>
       <div class="detail-info_wrapper">
         <div class="detail-info">
-          <a class="info-title" href="">商品详情</a>
+          <a class="info-title" href>商品详情</a>
         </div>
-        <img class="detail-img" :src='item' alt v-for="(item, index) in infoData.information" :key="index">
+        <img
+          class="detail-img"
+          :src="item"
+          alt
+          v-for="(item, index) in infoData.information"
+          :key="index"
+        >
       </div>
     </div>
 
@@ -95,7 +101,8 @@ import imagesList from "../components/imagesList";
 export default {
   data() {
     return {
-      infoData: {} //用来存储我们当前获得的数据
+      infoData: {}, //用来存储我们当前获得的数据
+      purchaseQuantity: 1 //购买物品的数量
     };
   },
   components: {
@@ -117,8 +124,37 @@ export default {
       this.infoData = data.data.categoryList.find(item => {
         return item.id === id;
       });
-       window.console.log(this.infoData);
+      window.console.log(this.infoData);
       // window.console.log(this.infoData.colorImageUrls);
+    },
+    //点击增加
+    increase() {
+      // this.purchaseQuantity += 1;
+      //这里需要转型,当点击增加是没关系，但是如果是我们手动输入可能是字符串
+      this.purchaseQuantity = parseInt(this.purchaseQuantity) + 1;
+    },
+    //点击减少
+    reduce() {
+      if (this.purchaseQuantity > 1) {
+        this.purchaseQuantity = parseInt(this.purchaseQuantity) - 1;
+      }
+    },
+    //加入到购物车
+    addShopcart() {
+      this.$store.commit("ADD_SHOPCART", {
+        data: this.infoData,
+        num: parseInt(this.purchaseQuantity)
+      });
+    },
+    //立即购买
+    /**
+     * 这里和加入购物车的行为一样外多了一步,跳转路由
+     */
+    purchase() {
+      this.$store.commit("ADD_SHOPCART", {
+        data: this.infoData,
+        num: parseInt(this.purchaseQuantity)
+      });
     }
   }
 };
@@ -168,7 +204,7 @@ export default {
       height: 55px;
       line-height: 55px;
       background-color: #f5f5f5;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
 
       .prop-price {
         font-size: 24px;
@@ -187,6 +223,7 @@ export default {
     }
     .service-list {
       display: inline-block;
+      margin-bottom: 5px;
 
       .list-item {
         display: inline-block;
@@ -242,13 +279,12 @@ export default {
     font-size: 0px;
     margin-top: 60px;
     margin-bottom: 80px;
-    .detail-img{
+    .detail-img {
       width: 1240px;
     }
     .detail-info {
       height: 62px;
       border-bottom: 1px solid #dcdcdc;
-     
     }
 
     .info-title {
