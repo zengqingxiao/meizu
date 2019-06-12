@@ -11,21 +11,77 @@ const mutations = {
    *  
    *  其二 可能我们会多次点击用一个物体购买，我们要判断我们的物品是否已经存在  
    */
-  ADD_SHOPCART(state, obj){
+  ADD_SHOPCART(state, obj) {
+    /**
+     * 点击添加到购物车
+     */
     // state.shopcartData.push(obj);
     //开始规范的写法
     let haveData = false; //用来判断是否已经存在了
     state.shopcartData.forEach(item => {
-     if(item.id === obj.data.id){  //当存在相同的物品的时候
-      haveData = true;
-      item.count += parseInt(obj.num);
-     }
+      if (item.id === obj.data.id) {  //当存在相同的物品的时候
+        haveData = true;
+        item.count += parseInt(obj.num);
+      }
     });
-    if (!haveData){   //当不存在相同的物品
-      Vue.set(obj.data, 'count' ,obj.num); //这里就是把num给赋值到data中去
+    if (!haveData) {   //当不存在相同的物品
+      Vue.set(obj.data, 'count', obj.num); //这里就是把num购买数量给赋值到物品对象data中去
+      Vue.set(obj.data, 'checked', true); //这里添加一个字段判断他是否在购物车中选择,默认是选择了的
       state.shopcartData.push(obj.data);
     }
     window.console.log(state.shopcartData);
+  },
+  INCREASE_SHOPCART(state, id) {
+    /**
+     * 购物车中的物品加一
+     */
+    state.shopcartData.forEach(item => {
+      if (item.id === id) {
+        item.count++;
+      }
+    })
+  },
+  REDUCE_SHOPCART(state, id) {
+    /**
+    * 购物车中的物品减一
+    */
+    state.shopcartData.forEach(item => {
+      if (item.id === id && item.count > 1) {
+        item.count--;
+      }
+    })
+  },
+  CHCK_GOODS(state, id) {
+    /**
+     * 选择购物车中的物品
+     */
+    state.shopcartData.forEach(item => {
+      if (item.id === id) {
+        item.checked = !item.checked;
+      }
+    })
+  },
+  CHCK_ALL_GOODS(state, checked) {
+    /**
+     * 选中全选按钮,所有购物车中我物品都会被选中
+     * 在一次点击，所有商品都不会被选中
+     * 
+     * checked参数：是全局计算属性isAllChecked的值,这个值当所有物品选中为true否则为false
+     */
+    // if (checked) {
+    //   state.shopcartData.forEach(item => {
+    //     item.checked = true;
+    //   })
+    // }else{
+    //   state.shopcartData.forEach(item => {
+    //     item.checked = false;
+    //   })
+    // }
+    state.shopcartData.forEach(item => {
+      item.checked = !checked;
+    })
   }
+
+
 }
 export default mutations

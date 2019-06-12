@@ -36,6 +36,7 @@ html{
   padding: 8px 20px;
   user-select: none;
   box-sizing: border-box;
+  line-height: normal;
 }
   .success{
     color: #fff;

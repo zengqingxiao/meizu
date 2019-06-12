@@ -99,6 +99,11 @@ import vHeader from "../components/header";
 import vFooder from "../components/footer";
 import imagesList from "../components/imagesList";
 export default {
+  props:{  //当路由设置了props:true,那么久可以从路由中的params对象中传值到组件中
+    id:{
+      type:Number,
+    }
+  },
   data() {
     return {
       infoData: {}, //用来存储我们当前获得的数据
@@ -111,7 +116,9 @@ export default {
     imagesList
   },
   mounted() {
-    this.getFetail(this.$route.params.id); //拿到router传过来的ID参数
+   // this.getFetail(this.$route.params.id); //拿到router传过来的ID参数,每一次不同的点击params对象中的ID属性值是不一样的
+   this.getFetail(this.id);  //根据props中拿到的值
+   window.console.log(this.id);
   },
   methods: {
     async getFetail(id) {
@@ -155,6 +162,13 @@ export default {
         data: this.infoData,
         num: parseInt(this.purchaseQuantity)
       });
+      this.goToShopcart(); 
+    },
+    //把路由跳转封装成一个函数,以方便使用
+    goToShopcart (){
+      this.$router.push({
+        name: 'Shopcart'
+      })
     }
   }
 };
