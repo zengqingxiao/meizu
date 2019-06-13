@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shopcart">
     <v-header></v-header>
     <div v-if='shopcartData.length > 0' class="shopcart-wrapper">
       <table class="shopcart-header">
@@ -73,7 +73,9 @@
         </div>
       </div>
     </div>
-    <v-footer></v-footer>
+    <div class="footer-shop">
+      <v-footer></v-footer>
+    </div>
     <v-dialog  :show.sync="dialogShow" title="提示" :width='500' @cancel='dialogShow = false' @confirm='confirmdelDekte'>
       <div style="height： 120px; line-height: 120px">你确定删除改商品吗</div>
     </v-dialog>
@@ -98,6 +100,7 @@ export default {
     vFooter,
     vDialog
   },
+
   computed: {
     //在计算属性中拿取vuex中的数据
     shopcartData() {
@@ -111,6 +114,7 @@ export default {
 
     ])
   },
+
   methods:{
     goToIndex (){
       this.$router.push({
@@ -126,6 +130,8 @@ export default {
       'DEL_SHOPCART' //删除
     ]),
     increase(id){
+    window.console.log(this.$refs.elememt.offsetHeight)
+
       //增加物品
       this.INCREASE_SHOPCART(id);
       //上面等价与：this.$srote.commit('INCREASE_SHOPCART', id)
@@ -156,6 +162,18 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+.shopcart{
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+
+  .footer-shop{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+}
 .shopcart-wrapper {
   width: 1240px;
 
