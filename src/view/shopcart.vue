@@ -36,7 +36,7 @@
             </td>
             <td class="cart-total">￥{{item.count * item.goodsPrice}}</td>
             <td class="cart-operate">
-              <i class="icon-font icon-close"></i>
+              <i class="icon-font icon-close" @click="delGoods(item.id)"></i>
             </td>
           </tr>
         </table>
@@ -48,17 +48,17 @@
           <span class="footer-remove">删除选择的商品</span>
           <span>
             共
-            <span class="footer-number gray">3</span>件商品,已选
-            <span class="footer-number blue">3</span>件商品
+            <span class="footer-number gray">{{checkedGoodsNum}}</span>件商品,已选
+            <span class="footer-number blue">{{checkedGoodsTotal}}</span>件商品
           </span>
         </div>
         <div class="fr">
           <span>
             已优惠
             <span class="red footer-number">0.00</span>元,合计(不含运费):
-            <span class="red footer-total">￥4000</span>
+            <span class="red footer-total">￥{{checkedGoodsPrice}}</span>
           </span>
-          <a href="javaScript:" class="btn success">去结算</a>
+          <a href="javaScript:" class="btn success" :class="{'cancel': checkedGoodsTotal <= 0}">去结算</a>
         </div>
       </div>
     </div>
@@ -74,6 +74,10 @@
       </div>
     </div>
     <v-footer></v-footer>
+    <v-dialog  :show.sync="dialogShow" title="提示" :width='500' @cancel='dialogShow = false' @confirm='confirmdelDekte'>
+      <div style="height： 120px; line-height: 120px">你确定删除改商品吗</div>
+    </v-dialog>
+    <!-- <v-dialog @confirm='' @cancel='' :show="dialogShow"></v-dialog> -->
   </div>
 </template>
 
@@ -81,13 +85,18 @@
 import { mapMutations, mapGetters } from 'vuex'
 import vHeader from "../components/header";
 import vFooter from "../components/footer";
+import vDialog from '../components/dialog'
 export default {
   data() {
-    return {};
+    return {
+      dialogShow: false, //用于控制弹出框是显示隐藏
+      currentId:null, //点击参数的时候用于保存item的
+    };
   },
   components: {
     vHeader,
-    vFooter
+    vFooter,
+    vDialog
   },
   computed: {
     //在计算属性中拿取vuex中的数据
@@ -95,7 +104,11 @@ export default {
       return this.$store.state.shopcartData;
     },
     ...mapGetters([
-      'isAllChecked'
+      'isAllChecked',
+      'checkedGoodsPrice',
+      'checkedGoodsTotal',
+      'checkedGoodsNum'
+
     ])
   },
   methods:{
@@ -109,7 +122,8 @@ export default {
       'INCREASE_SHOPCART',
       'REDUCE_SHOPCART',
       'CHCK_GOODS',
-      'CHCK_ALL_GOODS' //点击全选按钮
+      'CHCK_ALL_GOODS', //点击全选按钮
+      'DEL_SHOPCART' //删除
     ]),
     increase(id){
       //增加物品
@@ -127,6 +141,16 @@ export default {
     checkAllGoods(){
       //点击全选按钮
       this.CHCK_ALL_GOODS(this.isAllChecked);
+    },
+    delGoods(id){
+      //点击X
+      this.dialogShow = true;
+      this.currentId = id;
+    },
+    confirmdelDekte(){
+      //点击弹出框的确定
+      this.DEL_SHOPCART(this.currentId);
+       this.dialogShow = false;
     }
   }
 };

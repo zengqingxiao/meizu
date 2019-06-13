@@ -62,4 +62,8 @@ html{
     border-color: #EFEFEF;
     background-color: #EFEFEF;
   }
+  .cancel:hover{
+    border-color: #f6f6f6;
+    background-color: #f6f6f6;
+  }
   /* end -- 按钮 */

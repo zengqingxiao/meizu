@@ -1,93 +1,101 @@
 <template>
-  <div class="detail">
-    <v-header></v-header>
-    <div class="detail-weapper">
-      <div class="bread">
-        <span>首页</span>
-        <span class="arrow">></span>
-        <span>全部商品</span>
-        <span class="arrow">></span>
-        <span class="last-bread">手机</span>
-      </div>
-      <div class="clearfix">
-        <div class="fl detail-images">
-          <!-- 这里说明了父组件向子组件传值是传属性上的值，这个属性不一定是要是动态的 -->
-          <images-list v-if="infoData.colorImageUrls" :data="infoData.colorImageUrls" type="big"></images-list>
-          <!-- <images-list :type='big'></images-list> -->
+  <transition name="dialog">
+    <div class="detail">
+      <v-header></v-header>
+      <div class="detail-weapper">
+        <div class="bread">
+          <span>首页</span>
+          <span class="arrow">></span>
+          <span>全部商品</span>
+          <span class="arrow">></span>
+          <span class="last-bread">手机</span>
         </div>
-        <div class="fl detail-props">
-          <h1 class="props-title">{{infoData.goodsName}}</h1>
-          <p class="prop-desc">{{infoData.goodsDesc}}</p>
-          <div class="prop-sale">
-            <span class="prop-name">
-              价
-              <span class="prop-space"></span>
-              格:
-            </span>
-            <span class="prop-price">￥{{infoData.goodsPrice}}</span>
+        <div class="clearfix">
+          <div class="fl detail-images">
+            <!-- 这里说明了父组件向子组件传值是传属性上的值，这个属性不一定是要是动态的 -->
+            <images-list v-if="infoData.colorImageUrls" :data="infoData.colorImageUrls" type="big"></images-list>
+            <!-- <images-list :type='big'></images-list> -->
           </div>
-          <div>
-            <span class="prop-name">
-              支
-              <span class="prop-space"></span>
-              持:
-            </span>
-            <ul class="service-list">
-              <li class="list-item">
-                <i class="icon-font icon-check-circle"></i>百城速达
-              </li>
-              <li class="list-item">
-                <i class="icon-font icon-check-circle"></i>顺丰包邮
-              </li>
-              <li class="list-item">
-                <i class="icon-font icon-check-circle"></i>七天无理由退款
-              </li>
-            </ul>
-          </div>
-          <div>
-            <span class="prop-name">
-              服
-              <span class="prop-space"></span>
-              务:
-            </span>
-            <span>本商品由 魅族 负责发货并提供售后服务</span>
-          </div>
-          <div>
-            <span class="prop-name">
-              数
-              <span class="prop-space"></span>
-              量:
-            </span>
-            <div class="clearfix prop-number">
-              <input v-model="purchaseQuantity" class="fl prop-input" type="number" name id>
-              <div class="fl change-box">
-                <div @click="increase" class="change-value">+</div>
-                <div @click="reduce" class="change-value">-</div>
+          <div class="fl detail-props">
+            <h1 class="props-title">{{infoData.goodsName}}</h1>
+            <p class="prop-desc">{{infoData.goodsDesc}}</p>
+            <div class="prop-sale">
+              <span class="prop-name">
+                价
+                <span class="prop-space"></span>
+                格:
+              </span>
+              <span class="prop-price">￥{{infoData.goodsPrice}}</span>
+            </div>
+            <div>
+              <span class="prop-name">
+                支
+                <span class="prop-space"></span>
+                持:
+              </span>
+              <ul class="service-list">
+                <li class="list-item">
+                  <i class="icon-font icon-check-circle"></i>百城速达
+                </li>
+                <li class="list-item">
+                  <i class="icon-font icon-check-circle"></i>顺丰包邮
+                </li>
+                <li class="list-item">
+                  <i class="icon-font icon-check-circle"></i>七天无理由退款
+                </li>
+              </ul>
+            </div>
+            <div>
+              <span class="prop-name">
+                服
+                <span class="prop-space"></span>
+                务:
+              </span>
+              <span>本商品由 魅族 负责发货并提供售后服务</span>
+            </div>
+            <div>
+              <span class="prop-name">
+                数
+                <span class="prop-space"></span>
+                量:
+              </span>
+              <div class="clearfix prop-number">
+                <input v-model="purchaseQuantity" class="fl prop-input" type="number" name id>
+                <div class="fl change-box">
+                  <div @click="increase" class="change-value">+</div>
+                  <div @click="reduce" class="change-value">-</div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="prop-buy">
-            <a class="btn danger mr20" href="javaScript:" @click="purchase">立即购买</a>
-            <a class="btn success" href="javaScript:" @click="addShopcart">加入购物车</a>
+            <div class="prop-buy">
+              <a class="btn danger mr20" href="javaScript:" @click="purchase">立即购买</a>
+              <a class="btn success" href="javaScript:" @click="addShopcart">加入购物车</a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="detail-info_wrapper">
-        <div class="detail-info">
-          <a class="info-title" href>商品详情</a>
+        <div class="detail-info_wrapper">
+          <div class="detail-info">
+            <a class="info-title" href>商品详情</a>
+          </div>
+          <img
+            class="detail-img"
+            :src="item"
+            alt
+            v-for="(item, index) in infoData.information"
+            :key="index"
+          >
         </div>
-        <img
-          class="detail-img"
-          :src="item"
-          alt
-          v-for="(item, index) in infoData.information"
-          :key="index"
-        >
       </div>
+      <v-fooder></v-fooder>
+      <!-- 这里的show就是一个传给子组件的属性，有：属性值是不需要''，没：就需要'' -->
+      <v-dialog :show.sync="dialogShow" title="提示" :width='360' :confirmButtonShow="false" :cancelButtonShow="false">
+        <div>
+         <i class="icon-font icon-check-circle add-success"></i> 成功加入到购物车
+        </div>
+        <a style="margin: 10px;" href="javaScript:;" class="btn success" @click="goToShopcart" >进入购物车</a>
+      </v-dialog>
     </div>
-
-    <v-fooder></v-fooder>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -98,27 +106,31 @@ const HTTP = axios.create({
 import vHeader from "../components/header";
 import vFooder from "../components/footer";
 import imagesList from "../components/imagesList";
+import vDialog from "../components/dialog"; //弹框组件
 export default {
-  props:{  //当路由设置了props:true,那么久可以从路由中的params对象中传值到组件中
-    id:{
-      type:Number,
+  props: {
+    //当路由设置了props:true,那么久可以从路由中的params对象中传值到组件中
+    id: {
+      type: Number
     }
   },
   data() {
     return {
       infoData: {}, //用来存储我们当前获得的数据
-      purchaseQuantity: 1 //购买物品的数量
+      purchaseQuantity: 1, //购买物品的数量
+      dialogShow: false //默认弹框隐藏
     };
   },
   components: {
     vHeader,
     vFooder,
-    imagesList
+    imagesList,
+    vDialog
   },
   mounted() {
-   // this.getFetail(this.$route.params.id); //拿到router传过来的ID参数,每一次不同的点击params对象中的ID属性值是不一样的
-   this.getFetail(this.id);  //根据props中拿到的值
-   window.console.log(this.id);
+    // this.getFetail(this.$route.params.id); //拿到router传过来的ID参数,每一次不同的点击params对象中的ID属性值是不一样的
+    this.getFetail(this.id); //根据props中拿到的值
+    window.console.log(this.id);
   },
   methods: {
     async getFetail(id) {
@@ -152,6 +164,7 @@ export default {
         data: this.infoData,
         num: parseInt(this.purchaseQuantity)
       });
+      this.dialogShow = true; //显示弹出框
     },
     //立即购买
     /**
@@ -162,13 +175,13 @@ export default {
         data: this.infoData,
         num: parseInt(this.purchaseQuantity)
       });
-      this.goToShopcart(); 
+      this.goToShopcart();
     },
     //把路由跳转封装成一个函数,以方便使用
-    goToShopcart (){
+    goToShopcart() {
       this.$router.push({
-        name: 'Shopcart'
-      })
+        name: "Shopcart"
+      });
     }
   }
 };
@@ -313,5 +326,15 @@ export default {
       display: inline-block;
     }
   }
+}
+.add-success{
+  color: #00c3f5;
+  margin-right: 5px;
+}
+.dialog-enter-active {
+  transition: opacity 0.3s;
+}
+.dialog-enter {
+  opacity: 0;
 }
 </style>

@@ -80,6 +80,16 @@ const mutations = {
     state.shopcartData.forEach(item => {
       item.checked = !checked;
     })
+  },
+  DEL_SHOPCART (state, id) {
+    /**
+     * 删除商品
+     */
+    state.shopcartData.forEach((item, index) => {
+      if (item.id === id) {
+        state.shopcartData.splice(index, 1)
+      }
+    })
   }
 
 
