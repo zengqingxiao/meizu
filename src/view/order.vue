@@ -149,10 +149,11 @@
     </div>
     <m-footer></m-footer>
     <v-dialog :show.sync="dialogShow" :width="360" :height="80" :confirm-button-show="false" :cancel-button-show="false">
-      <div>
+      <div style="height：50px; line-height:50px">
         <i class="icon-font icon-check-circle add-success"></i>成功提交订单
       </div>
-      <a class="go-shopcart" href="javascript:;" @click="goToIndex">返回首页</a>
+      <button style="margin-bottom:10px" class=" btn success" href="javascript:;" @click="goToIndex">返回首页</button>
+      <!-- <a class="go-shopcart" href="javascript:;" @click="goToIndex">返回首页</a> -->
     </v-dialog>
   </div>
 </template>

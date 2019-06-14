@@ -3,7 +3,7 @@
     <div v-show="show" class="dialog-mask">
       <div class="dialog-box">
         <div class="dialog-wrapper" :style="dialogBox">
-          <div class="dialog-header" :class="{'dialog-title': title}">
+          <div class="dialog-header" :class="{'dialog-title': title}" v-if="dialogHeaderShow">
             {{title}}
             <i class="icon-font icon-close dialog-close" @click="close"></i>
           </div>
@@ -70,6 +70,11 @@ export default {
        */
       type: String,
       default:'取消'
+    },
+    dialogHeaderShow: {
+      //头部X , 默认显示
+      type: Boolean,
+      default: true
     }
   },
   data() {

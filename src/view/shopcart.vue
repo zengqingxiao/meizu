@@ -130,8 +130,6 @@ export default {
       'DEL_SHOPCART' //删除
     ]),
     increase(id){
-    window.console.log(this.$refs.elememt.offsetHeight)
-
       //增加物品
       this.INCREASE_SHOPCART(id);
       //上面等价与：this.$srote.commit('INCREASE_SHOPCART', id)
@@ -182,9 +180,14 @@ export default {
 }
 .shopcart-wrapper {
   width: 1240px;
-
   margin: 10px auto;
 
+&::after{  //设置底部导航的间距
+  content: '';
+  width: 100%;
+  display: block;
+  height: 290px;
+}
   .shopcart-header {
     height: 50px;
     line-height: 50px;

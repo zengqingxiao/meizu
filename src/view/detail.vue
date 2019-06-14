@@ -87,18 +87,37 @@
         </div>
       </div>
       <v-fooder></v-fooder>
-      <!-- 这里的show就是一个传给子组件的属性，有：属性值是不需要''，没：就需要'' -->
-      <v-dialog :show.sync="dialogShow" title="提示" :width='360' :confirmButtonShow="false" :cancelButtonShow="false">
+      <!-- <v-dialog
+        :show.sync="spinnerShow"
+        :width="200"
+        :confirmButtonShow="false"
+        :cancelButtonShow="false"
+        :dialogHeaderShow="false"
+      >
         <div>
-         <i class="icon-font icon-check-circle add-success"></i> 成功加入到购物车
+          <i class="icon-font icon-spinner6 category-spinner6"></i>
+          <p>加载中</p>
         </div>
-        <a style="margin: 10px;" href="javaScript:;" class="btn success" @click="goToShopcart" >进入购物车</a>
+      </v-dialog> -->
+      <!-- 这里的show就是一个传给子组件的属性，有：属性值是不需要''，没：就需要'' -->
+      <v-dialog
+        :show.sync="dialogShow"
+        title="提示"
+        :width="360"
+        :confirmButtonShow="false"
+        :cancelButtonShow="false"
+      >
+        <div>
+          <i class="icon-font icon-check-circle add-success"></i> 成功加入到购物车
+        </div>
+        <a style="margin: 10px;" href="javaScript:;" class="btn success" @click="goToShopcart">进入购物车</a>
       </v-dialog>
     </div>
   </transition>
 </template>
 
 <script>
+// import { mapMutations } from 'vuex'
 import axios from "axios";
 const HTTP = axios.create({
   baseURL: " https://www.easy-mock.com/mock/5cf54545a48c5b4da964d533/example"
@@ -118,7 +137,8 @@ export default {
     return {
       infoData: {}, //用来存储我们当前获得的数据
       purchaseQuantity: 1, //购买物品的数量
-      dialogShow: false //默认弹框隐藏
+      dialogShow: false, //默认弹框隐藏
+      // spinnerShow: false
     };
   },
   components: {
@@ -129,16 +149,23 @@ export default {
   },
   mounted() {
     // this.getFetail(this.$route.params.id); //拿到router传过来的ID参数,每一次不同的点击params对象中的ID属性值是不一样的
-    this.getFetail(this.id); //根据props中拿到的值
-    window.console.log(this.id);
+    //这里的id根据props中拿到的值
+    this.getFetail(this.id).then(() => {
+      // this.spinnerShow = false; //关闭菊花图
+    });
+
   },
   methods: {
+    // ...mapMutations([
+    //   'LOCAL_STORAGE_SHOPCART_DATA'
+    // ]),
     async getFetail(id) {
       //window.console.log(id);
       /**
        * 根据路由的ID值，取得相关连的ID的数据
        *
        */
+      // this.spinnerShow = true;
       const { data } = await HTTP.post("/xq");
       this.infoData = data.data.categoryList.find(item => {
         return item.id === id;
@@ -165,6 +192,7 @@ export default {
         num: parseInt(this.purchaseQuantity)
       });
       this.dialogShow = true; //显示弹出框
+      // this.LOCAL_STORAGE_SHOPCART_DATA()
     },
     //立即购买
     /**
@@ -176,6 +204,7 @@ export default {
         num: parseInt(this.purchaseQuantity)
       });
       this.goToShopcart();
+
     },
     //把路由跳转封装成一个函数,以方便使用
     goToShopcart() {
@@ -187,6 +216,20 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+@keyframes spinner6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.category-spinner6 {
+  font-size: 25px;
+  display: inline-block;
+  margin: 10px auto;
+  animation: spinner6 2s linear infinite;
+}
 .detail {
   background-color: white;
 }
@@ -327,7 +370,7 @@ export default {
     }
   }
 }
-.add-success{
+.add-success {
   color: #00c3f5;
   margin-right: 5px;
 }

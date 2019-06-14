@@ -8,12 +8,32 @@
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-
+// import { mapMutations } from 'vuex'
 export default {
+  // data(){
+  //   return {
+  //     aa : this.$store.state.shopcartData
+  //   }
+  // },
   name: 'app',
   components: {
     //HelloWorld
-  }
+  },
+  mounted(){
+   
+  },
+  // methods:{
+  //   ...mapMutations([
+  //     'LOCAL_STORAGE_SHOPCART_DATA' //跟新数据
+  //   ])
+  // },
+  
+  // watch:{
+  //  aa: function(){
+  //   window.console.log(this.aa)
+  //    //this.LOCAL_STORAGE_SHOPCART_DATA();
+  //  }
+  // }
 }
 </script>
 

@@ -93,6 +93,13 @@ const mutations = {
   },
   REMOVE_GOODS (state) {
     state.shopcartData = state.shopcartData.filter(item => !item.checked);
+  },
+
+  LOCAL_STORAGE_SHOPCART_DATA(state) {
+    //将数据保存在浏览器
+    let storage=window.localStorage;
+    let data =JSON.stringify(state.shopcartData);
+    storage.setItem("localStopage_shopcartData", data)
   }
 
 

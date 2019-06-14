@@ -14,9 +14,22 @@
     <!-- <filter-box :data='filrerBoxData' @filter='getResult(val)'></filter-box> -->
     <filter-box :data="filrerBoxData" @filter="getQuery"></filter-box>
     <sortBox @getKey="getSortKey" @getStock="getSortStock"></sortBox>
-    <category-list @clickItem='goTODetail' :data="categoryListData"></category-list>
-    <recommendList :data='recommendListData'></recommendList>
+    <category-list @clickItem="goTODetail" :data="categoryListData"></category-list>
+    <recommendList :data="recommendListData"></recommendList>
     <v-footer></v-footer>
+    <!-- 当你不需要''的时候加： -->
+    <v-dialog
+      :show.sync="dialogShow"
+      :width="200"
+      :confirmButtonShow="false"
+      :cancelButtonShow="false"
+      :dialogHeaderShow="false"
+    >
+      <div>
+        <i class="icon-font icon-spinner6 category-spinner6"></i>
+        <p>加载中</p>
+      </div>
+    </v-dialog>
   </div>
 </template>
 
@@ -28,7 +41,8 @@ import vFooter from "../components/footer";
 import filterBox from "../components/filterBox";
 import categoryList from "../components/categoryList";
 import sortBox from "../components/sortBox";
-import recommendList from '../components/recommendList'
+import recommendList from "../components/recommendList";
+import vDialog from "../components/dialog";
 const HTTP = axios.create({
   baseURL: " https://www.easy-mock.com/mock/5cf54545a48c5b4da964d533/example"
 });
@@ -39,27 +53,31 @@ export default {
     categoryList,
     filterBox,
     sortBox,
-    recommendList
+    recommendList,
+    vDialog
   },
   data() {
     return {
       categoryListData: [], //列表数据
       filrerBoxData: [], //条件筛选组件数据
       categoryListCopy: [],
-      recommendListData: [],//推荐商品组件的数据
+      recommendListData: [], //推荐商品组件的数据
       //新增字段用来缓存存各自选择过后的物品的值
       currentQuery: null, //条件对象筛选
       currentStock: null, //判断是否有货
-      currentKey: null //根据新品,推荐,价格筛选
+      currentKey: null, //根据新品,推荐,价格筛选
+      dialogShow: false // 弹出框
     };
   },
   mounted() {
     this.getcategoryListData().then(() => {
       this.getSortKey("recommend"); //要在异步执行完后让他是推荐列
+      this.dialogShow = false; //关闭菊花图
     });
   },
   methods: {
     async getcategoryListData() {
+      this.dialogShow = true; //出菊花图
       const { data } = await HTTP.post("/meizu");
       this.categoryListData = data.data.categoryList;
       this.categoryListCopy = [].concat(data.data.categoryList); //将data的值赋值一遍
@@ -124,10 +142,9 @@ export default {
     //   }
     // },
     getSortKey(key) {
-      
       this.currentKey = key;
       this.sortGoods();
-     // window.console.log('getSortKey')
+      // window.console.log('getSortKey')
     },
 
     // ----是否有货排序-----
@@ -141,7 +158,7 @@ export default {
     //   }
     // }
     getSortStock(val) {
-      window.console.log('getSortStock')
+      window.console.log("getSortStock");
       this.currentStock = val;
       this.sortGoods();
     },
@@ -153,7 +170,7 @@ export default {
      *
      */
     sortGoods() {
-     //必须注意的一个地方 这里不可以用else if  因为用了else 就是一个整体，就不可以带到3个同事的情况
+      //必须注意的一个地方 这里不可以用else if  因为用了else 就是一个整体，就不可以带到3个同事的情况
       this.categoryListData = [].concat(this.categoryListCopy); //作用:每一次点击数据都是全新的
       if (this.currentQuery) {
         Object.keys(this.currentQuery).forEach(key => {
@@ -171,7 +188,7 @@ export default {
         });
       }
       if (this.currentKey) {
-         window.console.log(this.currentKey)
+        window.console.log(this.currentKey);
         if (this.currentKey === "recommend") {
           this.categoryListData.sort((a, b) => {
             return b.shelveTime - a.shelveTime;
@@ -186,7 +203,7 @@ export default {
             return b.goodsPrice - a.goodsPrice;
           });
         } else if (this.currentKey === "high") {
-          window.console.log(this.currentKey)
+          window.console.log(this.currentKey);
           this.categoryListData.sort((a, b) => {
             return a.goodsPrice - b.goodsPrice;
           });
@@ -194,27 +211,41 @@ export default {
       }
     },
     //点击跳转路由,并传从参数
-    goTODetail(val){
+    goTODetail(val) {
       //window.console.log(val);
       this.$router.push({
-        name: 'Detail',
+        name: "Detail",
         /**
-         * 
+         *
          * 传 ID 值给路由，这个对象params会给路由
          * ，路由会根据这里的值给Url和以放便后面子组件根据params对象取得ID的值
-         * 
+         *
          * 在detail子页面中以this.$route.params.id的方式去取当前路由下的ID值
-         * 
+         *
          */
         params: {
-          id: val.item.id 
+          id: val.item.id
         }
-      })
+      });
     }
   }
 };
 </script> 
 <style lang='less' scoped>
+@keyframes spinner6 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.category-spinner6 {
+  font-size: 25px;
+  display: inline-block;
+  margin: 10px auto;
+  animation:spinner6 2s linear infinite;
+}
 .category-wrapper {
   width: 1240px;
   margin: 0 auto;
