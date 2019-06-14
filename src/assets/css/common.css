@@ -68,3 +68,10 @@ html{
     background-color: #f6f6f6;
   }
   /* end -- 按钮 */
+  .linehove{
+    white-space: nowrap;
+    /*失去换行*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*溢出打点*/
+  }

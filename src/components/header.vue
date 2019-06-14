@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-wrapper clearfix">
-      <div class="header-logo fl"></div>
+      <div class="header-logo fl" @click="goToIndex"></div>
       <div class="header-cart fr">
         <span class="icon-moon icon-cart"></span>
       </div>
@@ -103,6 +103,11 @@ export default {
     goToCategory () {
       this.$router.push({
         name: 'Category',
+      })
+    },
+    goToIndex () {
+       this.$router.push({
+        name: 'Index',
       })
     }
   }

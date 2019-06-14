@@ -90,6 +90,9 @@ const mutations = {
         state.shopcartData.splice(index, 1)
       }
     })
+  },
+  REMOVE_GOODS (state) {
+    state.shopcartData = state.shopcartData.filter(item => !item.checked);
   }
 
 

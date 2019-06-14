@@ -5,6 +5,7 @@ import Index from '../view/index.vue' //主页
 import Category from '../view/category.vue' //物品详细页
 import Detail from '../view/detail.vue' //物品订单页
 import Shopcart from '../view/shopcart.vue' //购物车页
+import Order from '../view/order.vue' //订单页面
 //2.引用
 Vue.use(Router)
 //将router导入，以便main.js导出 
@@ -33,6 +34,11 @@ export default new Router({
       path: '/Shopcart',
       name:'Shopcart',
       component: Shopcart
+    },
+    {
+      path:'/Order',
+      name: 'Order',
+      component: Order
     }
   ]
 })

@@ -58,7 +58,7 @@
             <span class="red footer-number">0.00</span>元,合计(不含运费):
             <span class="red footer-total">￥{{checkedGoodsPrice}}</span>
           </span>
-          <a href="javaScript:" class="btn success" :class="{'cancel': checkedGoodsTotal <= 0}">去结算</a>
+          <a href="javaScript:" class="btn success" :class="{'cancel': checkedGoodsTotal <= 0}" @click="goToOrder">去结算</a>
         </div>
       </div>
     </div>
@@ -157,6 +157,12 @@ export default {
       //点击弹出框的确定
       this.DEL_SHOPCART(this.currentId);
        this.dialogShow = false;
+    },
+    goToOrder(){
+      //跳转到订单页面
+       this.$router.push({
+        name: 'Order'
+      })
     }
   }
 };
