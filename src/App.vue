@@ -8,37 +8,39 @@
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-// import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 export default {
-  // data(){
-  //   return {
-  //     aa : this.$store.state.shopcartData
-  //   }
-  // },
-  name: 'app',
+  data() {
+    return {
+      aa: this.$store.state
+    };
+  },
+  name: "app",
   components: {
     //HelloWorld
   },
-  mounted(){
-   
+  mounted() {},
+  methods: {
+    ...mapMutations([
+      "LOCAL_STORAGE_SHOPCART_DATA" //跟新数据
+    ])
   },
-  // methods:{
-  //   ...mapMutations([
-  //     'LOCAL_STORAGE_SHOPCART_DATA' //跟新数据
-  //   ])
-  // },
-  
-  // watch:{
-  //  aa: function(){
-  //   window.console.log(this.aa)
-  //    //this.LOCAL_STORAGE_SHOPCART_DATA();
-  //  }
-  // }
-}
+
+  watch: {
+    "aa.shopcartData": {
+      handler:function() {
+        window.console.log("aa");
+        this.LOCAL_STORAGE_SHOPCART_DATA()
+        },
+      // 深度观察
+      deep: true
+    }
+  }
+};
 </script>
 
 <style>
-#app{
+#app {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
