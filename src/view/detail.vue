@@ -60,6 +60,7 @@
                 量:
               </span>
               <div class="clearfix prop-number">
+                
                 <input v-model="purchaseQuantity" class="fl prop-input" type="number" name id>
                 <div class="fl change-box">
                   <div @click="increase" class="change-value">+</div>

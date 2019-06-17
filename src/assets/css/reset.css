@@ -526,14 +526,15 @@ li {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+  -webkit-appearance: none;         
 }
 
 input::-webkit-input-placeholder {
   color: #999;
 }
 input[type="number"] {
-  -moz-appearance: textfield;
+  /* 去除input的type为number的时候的右边的上下按钮 */
+  -moz-appearance: textfield;  
 }
 
 input:focus, button:focus, textarea:focus {

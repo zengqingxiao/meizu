@@ -133,11 +133,11 @@ export default {
     //     });
     //   } else if (key === "low") {
     //     this.categoryListData.sort((a, b) => {
-    //       return b.goodsPrice - a.goodsPrice;
+    //       return b.goodsPrice - a.goodsPrice; //先小再大是升序
     //     });
     //   } else if (key === "high") {
     //     this.categoryListData.sort((a, b) => {
-    //       return a.goodsPrice - b.goodsPrice;
+    //       return a.goodsPrice - b.goodsPrice; //先大再下是降序
     //     });
     //   }
     // },
