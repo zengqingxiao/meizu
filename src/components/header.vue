@@ -23,7 +23,7 @@
         <div class="children-wrapper">
           <transition-group tag="ul" @enter='enter'>
             <!-- 这里的key必须每一个都不一样如果用index就是每一组都一样那么久再每一组切换的时候会没效果 -->
-            <li class="children-item" v-for="(item, index) in childrenData" :key= 'item.pic' :data-index='index'>
+            <li class="children-item" v-for="(item, index) in childrenData" :key= 'item.pic' :data-index='index' :data-css='index' >
               <img :src="item.pic" alt>
               <p>{{item.name}}</p>
               <p>{{item.price}}</p>
@@ -84,20 +84,20 @@ export default {
       以便他们下一次绑定el元素给他们添加属性
       */
     },
-    enter(el){
+    enter(el, done){
       /*
       el循环中的某一个子项,这样我们就可以获取到这个子项上的一些属性值,名为需要index,
       所以我们可以再元素上定义一个属性属性值为index,这样就可以传到el上面我们就可以获取到index的值
+      进入动画的初始状态默认为opacity:0
       */
       const timeOut = el.dataset.index * 150;
-      //window.console.dir(el);
+      window.console.dir(el);
       setTimeout(function(){
         velocity(el,{
           'opacity': 1,
           'translateX': '-50px'  
-        })
-      }
-      ,timeOut)
+        },{ complete: done })
+      },timeOut)
     },
     //点击跳转路由
     goToCategory () {
@@ -182,7 +182,7 @@ export default {
   }
   .nav-children {
     width: 100%;
-    height: 156px;
+    // height: 56px;
     background-color: white;
     position: absolute;
     left: 0;
@@ -200,7 +200,7 @@ export default {
       display: inline-block;
       line-height: 1.5;
       width: 136px;
-      height: 145px;
+      height: 150px;
       opacity: 0;
       text-align: center;
       font-size: 12px;
@@ -212,8 +212,8 @@ export default {
     }
   }
   .nav-enter-active {
-    height: 156px; //定义进入过渡开始产生效果的时候的状态
-    transition: height 0.3s ease-in-out;
+    height: 150px; //定义进入过渡开始产生效果的时候的状态
+    transition: height .3s ease-in-out;
   }
   .nav-enter {
     height: 0; //定义进入过渡的开始状态
