@@ -19,9 +19,9 @@
       </ul>
     </div>
     <transition name="nav">
-      <div class="nav-children" v-show="childrenShow" @mouseleave="heidChildren">
+      <div class="nav-children" v-if="childrenShow" @mouseleave="heidChildren">
         <div class="children-wrapper">
-          <transition-group tag="ul" @enter='enter'>
+          <transition-group tag="ul" @enter="enter">
             <!-- 这里的key必须每一个都不一样如果用index就是每一组都一样那么久再每一组切换的时候会没效果 -->
             <li class="children-item" v-for="(item, index) in childrenData" :key= 'item.pic' :data-index='index' :data-css='index' >
               <img :src="item.pic" alt>
@@ -65,9 +65,21 @@ export default {
       this.navData = data.data.nav; //将获得到的数据赋值给变量navData
     },
     async showChildren(item) {
-      this.childrenData = item.children; //获取每一项数据中的值
-      // window.console.log(this.childrenData);
       this.childrenShow = true;
+
+      /**
+       * 这里为什么要用$.nextTick很关键,很关键
+       * 1.因为v-if要先生成DOM树再生成浏览器的渲染树,渲染树上的改变监听@enter事件，但是当我们v-if生成了DOM树的时候第一次，为了生成DOM的数据就已经再DOM树上，
+       * 了所以第一次没有触发监听到数据改变，因为当这个DOM树给浏览器的渲染树的时候就已经是添加过第一次数据了的
+       * 2.但是当我们给添加数据加上$.nextTick的时候我们就是先成了一次DOM树，这个DOM树没有执行数据的绑定，所以在再下一帧的时候上传数据这个浏览器渲染树上的数据的改变@enter事件就会被监听到，
+       * 所以就和v-show就有相同的效果了因为v-show再DOM树上就本来一直就存在，所以浏览器的渲染树上也是有这给div，所以当DOM树上的数据发生了改变，浏览器的渲染树也就发生了改变@enter就监听到了；而
+       * v-if再先生成DOM树的时候就代上了第一次的数据，同时也给了浏览器的渲染树，所以第一次@enter是没触发的。
+       *
+       * */
+      this.$nextTick(function () {
+        this.childrenData = item.children; //获取每一项数据中的值
+      })
+      // window.console.log(this.childrenData);
     },
     // async getMenuData() {
     //  const { data } = await HTTP.post('/meizu');
@@ -84,20 +96,21 @@ export default {
       以便他们下一次绑定el元素给他们添加属性
       */
     },
-    enter(el, done){
+    enter(el){
       /*
       el循环中的某一个子项,这样我们就可以获取到这个子项上的一些属性值,名为需要index,
       所以我们可以再元素上定义一个属性属性值为index,这样就可以传到el上面我们就可以获取到index的值
-      进入动画的初始状态默认为opacity:0
       */
+     window.console.dir('触发了el');
       const timeOut = el.dataset.index * 150;
-      window.console.dir(el);
+      //window.console.dir(el);
       setTimeout(function(){
         velocity(el,{
           'opacity': 1,
           'translateX': '-50px'  
-        },{ complete: done })
-      },timeOut)
+        })
+      }
+      ,timeOut)
     },
     //点击跳转路由
     goToCategory () {
@@ -182,13 +195,13 @@ export default {
   }
   .nav-children {
     width: 100%;
-    // height: 56px;
     background-color: white;
     position: absolute;
     left: 0;
     top: 82px;
     border-bottom: 1px solid #e9e9e9;
     z-index: 1;
+    // height: 156px; //定义进入过渡开始产生效果的时候的状态
 
     .children-wrapper {
       width: 1240px;
@@ -200,7 +213,7 @@ export default {
       display: inline-block;
       line-height: 1.5;
       width: 136px;
-      height: 150px;
+      height: 156px;
       opacity: 0;
       text-align: center;
       font-size: 12px;
@@ -212,10 +225,14 @@ export default {
     }
   }
   .nav-enter-active {
-    height: 150px; //定义进入过渡开始产生效果的时候的状态
     transition: height .3s ease-in-out;
   }
-  .nav-enter {
+
+  .nav-enter-to,.nav-leave {
+    height: 156px; //定义进入过渡开始产生效果的时候的状态
+  }
+  
+  .nav-enter, .nav-leave-to {
     height: 0; //定义进入过渡的开始状态
   }
   //所以上面2个再一起就会由以高度为基准来进行动画

@@ -127,6 +127,7 @@ export default {
   font-size: 25px;
   display: inline-block;
   margin: 10px auto;
+  animation:spinner6 2s linear infinite;
 } 
 .swiper-wraper {
   width: 1240px;
